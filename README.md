@@ -5,6 +5,7 @@ For this assignment, I was given an HMTL file, CSS stylesheet, and barebones Jav
 
 ## Screenshot
 [View the deployed web application.](https://dandandanoneil.github.io/password-generator/index.html)
+
 Main Screen:
 <img src="images/password-generator.png" alt="Password Generator main screen screenshot">
 User Prompt Example:
