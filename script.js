@@ -1,18 +1,25 @@
-var generateBtn = document.querySelector("#generate");
+// Identify and name key elements
+const generateBtn = document.querySelector("#generate");
+const passwordText = document.querySelector("#password");
+
 // Create strings of character banks to draw from
 const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
 const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const numericChars = "0123456789";
-// Is there a less clumsy way to include " in the specialChars string?
-const specialChars = "!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" + '"';
+const specialChars = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~\"\\";
 
-// Write password to the #password input
+// Generate a password based on user prompts, ensure it meets criteria, then write it to the #password input
 function writePassword() {
   // Prompt the user for password length & ensure a valid length was entered
-  let passwordLength = parseInt(prompt("How many characters long should the password be?", "Enter a number between 8 and 128"), 10);
+  // (the userInput variable allows the user to click "cancel" and get out at this point)
+  let userInput = prompt("How many characters long should the password be?", "Enter a number between 8 and 128");
+  if (userInput == null) { return; }
+  let passwordLength = parseInt(userInput, 10);
   
   while (passwordLength < 8 || passwordLength > 128 || isNaN(passwordLength)) {
-    passwordLength = parseInt(prompt("You must enter a length between 8 and 128 in number form.", "Enter a number between 8 and 128"), 10);
+    userInput = prompt("You must enter a length between 8 and 128 in number form.", "Enter a number between 8 and 128");
+    if (userInput == null) { return; }
+    passwordLength = parseInt(userInput, 10);
   }
   
   // Prompt the user for password character criteria
@@ -21,7 +28,7 @@ function writePassword() {
   let useNumeric = confirm("Should the password include numeric characters? \r\nClick 'OK' for yes, or 'Cancel' for no.");
   let useSpecial = confirm("Should the password include special characters (not including spaces)? \r\nClick 'OK' for yes, or 'Cancel' for no.");
 
-  // Ensure at least one character type is selected
+  // If at least one character type is selected, identify the problem for the user and re-prompt each criteria
   while (useLowerCase === false && 
          useUpperCase === false && 
          useNumeric === false &&
@@ -33,10 +40,23 @@ function writePassword() {
     useSpecial = confirm("Should the password include special characters? \r\nClick 'okay' for yes, or 'cancel' for no.");
   }
 
-  var password = generatePassword(passwordLength, useLowerCase, useUpperCase, useNumeric, useSpecial);
-  var passwordText = document.querySelector("#password");
+  // Create a variable ("isValid") to represent whether the generated password matches criteria
+  let isValid = false;
+  while (!isValid) {
+    // Generate a new password with the prompted criteria
+    let password = generatePassword(passwordLength, useLowerCase, useUpperCase, useNumeric, useSpecial);
+    // If the new value of password matches all the criteria, write it in the #password element. If it doesn't, keep generating new passowrds until one does.
+    if ((useLowerCase === commonChars(password, lowerCaseChars)) || 
+    (useUpperCase === commonChars(password, upperCaseChars)) || 
+    (useNumeric === commonChars(password, numericChars)) || 
+    (useSpecial === commonChars(password, specialChars)) ){
+      isValid = true;
+      passwordText.value = password;
+    } else {
+      isValid = false;
+    }
+  }
 
-  passwordText.value = password;
 }
 
 
@@ -44,6 +64,13 @@ function writePassword() {
 generateBtn.addEventListener("click", writePassword);
 
 
+// Generate a random password from the given criteria.
+// Arguments:
+//  - 'length' is the password length - a number between 8 and 128
+//  - 'useLow' is a boolean telling us whether to include lower case letters
+//  - 'useUpp' is a boolean telling us whether to include upper case letters
+//  - 'useNum' is a boolean telling us whether to include numeric characters
+//  - 'useSpe' is a boolean telling us whether to include special characters letters
 function generatePassword(length, useLow, useUpp, useNum, useSpe) {
   // Create a string of all possible characters to choose from
   let possibleChars = "";
@@ -63,25 +90,17 @@ function generatePassword(length, useLow, useUpp, useNum, useSpe) {
   return newPassword;
 }
 
-  // NEXT STEPS:
-  // Add code to ensure generated password includes at least one of each included character type
-  //     - If a type was included and is missing, I replace a specific character in newPassword with a character of that type? (This feels a little brute-force-y...)
-  //     - Write a function that takes in two strings (newPassword and a character list) and returns whether they have any characters in common to check inclusion of character types.
 
-// function commonChars(pw, chars){
-//   if(pw.length > chars.length) {
-//     return commonChars(chars, pw)
-//   }
+// This function will return a boolean representing whether the two strings have any characters in common. It will be used to test whether the generated password includes a character from each requested character type.
+function commonChars(pw, chars){
+  if(pw.length > chars.length) {
+    return commonChars(chars, pw)
+  }
 
-//   for (let index = 0; index < chars.length; index++) {
-//     if (pw.indexOf(chars[index]) != -1) {
-//       return true
-//     }
-//   }
-//   return false
-// }
-
-// if(useLowercase && !commonChars(newPassword, lowerCaseChars)) { }
-// if(useUppercase && !commonChars(newPassword, upperCaseChars)) { }
-// if(useNumeric && !commonChars(newPassword, numericChars)) { }
-// if(useSpecial && !commonChars(newPassword, specialChars)) { }
+  for (let index = 0; index < chars.length; index++) {
+    if (pw.indexOf(chars[index]) != -1) {
+      return true
+    }
+  }
+  return false
+}
