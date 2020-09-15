@@ -43,17 +43,20 @@ function writePassword() {
   // Create a variable ("isValid") to represent whether the generated password matches criteria
   let isValid = false;
   while (!isValid) {
-    // Generate a new password with the prompted criteria
+    // Generate a new password with the prompted criteria. If the new value of password matches all the criteria, write it in the #password element. If it doesn't, keep generating new passowrds until one does.
     let password = generatePassword(passwordLength, useLowerCase, useUpperCase, useNumeric, useSpecial);
-    // If the new value of password matches all the criteria, write it in the #password element. If it doesn't, keep generating new passowrds until one does.
-    if ((useLowerCase === commonChars(password, lowerCaseChars)) || 
-    (useUpperCase === commonChars(password, upperCaseChars)) || 
-    (useNumeric === commonChars(password, numericChars)) || 
-    (useSpecial === commonChars(password, specialChars)) ){
+
+    if ((useLowerCase != commonChars(password, lowerCaseChars)) || 
+    (useUpperCase != commonChars(password, upperCaseChars)) || 
+    (useNumeric != commonChars(password, numericChars)) || 
+    (useSpecial != commonChars(password, specialChars)) ){
+      isValid = false;
+      console.log(password, isValid);
+    } else {
       isValid = true;
       passwordText.value = password;
-    } else {
-      isValid = false;
+      console.log(password, isValid);
+      console.log("----")
     }
   }
 
@@ -91,14 +94,14 @@ function generatePassword(length, useLow, useUpp, useNum, useSpe) {
 }
 
 
-// This function will return a boolean representing whether the two strings have any characters in common. It will be used to test whether the generated password includes a character from each requested character type.
-function commonChars(pw, chars){
-  if(pw.length > chars.length) {
-    return commonChars(chars, pw)
+// This function will return a boolean representing whether the two strings have any characters in common. It will be used to test whether the generated password (a) includes a character from each requested character type (b).
+function commonChars(a, b){
+  if(a.length > b.length) {
+    return commonChars(b, a)
   }
 
-  for (let index = 0; index < chars.length; index++) {
-    if (pw.indexOf(chars[index]) != -1) {
+  for (let j = 0; j < b.length; j++) {
+    if (a.indexOf(b[j]) != -1) {
       return true
     }
   }
