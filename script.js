@@ -1,6 +1,4 @@
-// Assignment Code
 var generateBtn = document.querySelector("#generate");
-
 // Create strings of character banks to draw from
 const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
 const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -10,12 +8,11 @@ const specialChars = "!#$%&'()*+,-./:;<=>?@[\]^_`{|}~" + '"';
 
 // Write password to the #password input
 function writePassword() {
-  // Prompt the user for password length
+  // Prompt the user for password length & ensure a valid length was entered
   let passwordLength = parseInt(prompt("How many characters long should the password be?", "Enter a number between 8 and 128"), 10);
   
-  // Ensure a valid length was entered
-  while (passwordLength < 8 || passwordLength > 128 || passwordLength == "NaN") {
-    passwordLength = parseInt(prompt("You must enter a password length between 8 and 128 characters.", "Enter a number between 8 and 128"), 10);
+  while (passwordLength < 8 || passwordLength > 128 || isNaN(passwordLength)) {
+    passwordLength = parseInt(prompt("You must enter a length between 8 and 128 in number form.", "Enter a number between 8 and 128"), 10);
   }
   
   // Prompt the user for password character criteria
@@ -40,15 +37,14 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
-
 }
 
-// Add event listener to generate button
+
+// Event listener for generate button
 generateBtn.addEventListener("click", writePassword);
 
-// Prompt password criteria, and return a password based on user inputs
-function generatePassword(length, useLow, useUpp, useNum, useSpe) {
 
+function generatePassword(length, useLow, useUpp, useNum, useSpe) {
   // Create a string of all possible characters to choose from
   let possibleChars = "";
   if(useLow) { possibleChars += lowerCaseChars; }
@@ -64,37 +60,14 @@ function generatePassword(length, useLow, useUpp, useNum, useSpe) {
     newPassword += randomChar;
   }
 
-  // NEXT STEPS:
-  // Add code to ensure newPassword includes at least one of each included character type
-  //     (four if statements, and if that type was included and is missing, I replace a specific character in newPassword with a character of that type?)
-  //     (write a function that takes in two strings, newPassword and a character list, and returned whether they had any characters in common?)
-
-  // Test password criteria check by logging the initially generated password first
-  // console.log(newPassword);
-
-  // if(useLow && !commonChars(newPassword, lowerCaseChars)) {
-  //   console.log("Missing lowercase characters");
-  // }
-
-  // if(useUpp && !commonChars(newPassword, upperCaseChars)) {
-  //   console.log("Missing uppercase characters");
-  // }
-
-  // if(useNum && !commonChars(newPassword, numericChars)) {
-  //   console.log("Missing numeric characters");
-  // }
-
-  // if(useSpe && !commonChars(newPassword, specialChars)) {
-  //   console.log("Missing special characters");
-  // }
-
-  // // Test password criteria check by logging the updated password
-  // console.log(newPassword);
-
   return newPassword;
 }
 
-// // Function that checks whether pw (the randomly generated password) includes any of the characters from a string (the list of characters in a certain type), and returns a boolean
+  // NEXT STEPS:
+  // Add code to ensure generated password includes at least one of each included character type
+  //     - If a type was included and is missing, I replace a specific character in newPassword with a character of that type? (This feels a little brute-force-y...)
+  //     - Write a function that takes in two strings (newPassword and a character list) and returns whether they have any characters in common to check inclusion of character types.
+
 // function commonChars(pw, chars){
 //   if(pw.length > chars.length) {
 //     return commonChars(chars, pw)
@@ -107,3 +80,8 @@ function generatePassword(length, useLow, useUpp, useNum, useSpe) {
 //   }
 //   return false
 // }
+
+// if(useLowercase && !commonChars(newPassword, lowerCaseChars)) { }
+// if(useUppercase && !commonChars(newPassword, upperCaseChars)) { }
+// if(useNumeric && !commonChars(newPassword, numericChars)) { }
+// if(useSpecial && !commonChars(newPassword, specialChars)) { }
