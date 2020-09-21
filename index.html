@@ -15,9 +15,23 @@
       <div class="card">
         <div class="card-header">
           <h2>Generate a Password</h2>
-          <p>When you click "Generate Password" below, you will be prompted to enter a password length, and asked if you'd like to include lowercase letters, uppercase letters, numbers, and special characters.</p>
-          <p>The password can be between 8 and 128 characters, and you must choose at least one character type.</p>
-          <p><em>Stay tuned for more features coming soon!</em></p>
+          <!-- Password Criteria Checkboxes -->
+          <form>
+            <input type="checkbox" id="lowercase" value="lowercase">
+            <label for="lowercase"> Use lowercase letters</label><br>
+            <input type="checkbox" id="uppercase" value="uppercase">
+            <label for="uppercase"> Use uppercase letters</label><br>
+            <input type="checkbox" id="numeric" value="numeric">
+            <label for="numeric"> Use numeric characters</label><br>
+            <input type="checkbox" id="special" value="special">
+            <label for="special"> Use special characters</label>
+          </form>
+          <!-- Password Length Range Input -->
+          <form>
+            <label for="length">Password Length (between 1 and 99):</label><br>
+            <span id="rangeDisplay">12</span>
+            <input type="range" id="length" name="length" min="1" max="99">
+          </form>
         </div>
         <div class="card-body">
           <textarea
