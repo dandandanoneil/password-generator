@@ -15,34 +15,35 @@
       <div class="card">
         <div class="card-header">
           <h2>Generate a Password</h2>
-          <!-- Password Criteria Checkboxes -->
-          <form>
-            <input type="checkbox" id="lowercase" value="lowercase">
-            <label for="lowercase"> Use lowercase letters</label><br>
-            <input type="checkbox" id="uppercase" value="uppercase">
-            <label for="uppercase"> Use uppercase letters</label><br>
-            <input type="checkbox" id="numeric" value="numeric">
-            <label for="numeric"> Use numeric characters</label><br>
-            <input type="checkbox" id="special" value="special">
-            <label for="special"> Use special characters</label>
-          </form>
-          <!-- Password Length Range Input -->
-          <form>
-            <label for="length">Password Length (between 1 and 99):</label><br>
-            <span id="rangeDisplay">12</span>
-            <input type="range" id="length" name="length" min="1" max="99">
-          </form>
         </div>
+        
         <div class="card-body">
           <textarea
-            readonly
-            id="password"
-            placeholder="Your Secure Password"
-            aria-label="Generated Password"
+          readonly
+          id="password"
+          placeholder="Your Secure Password"
+          aria-label="Generated Password"
           ></textarea>
-        </div>
-        <div class="card-footer">
-          <button id="generate" class="btn">Generate Password</button>
+
+          <!-- Password Criteria Inputs -->
+          <form>
+            <!-- Lowercase Letters -->
+            <input type="checkbox" id="lowerCase" value="lowerCase">
+            <label for="lowerCase"> Lowercase Letters</label><br>
+            <!-- Uppercase Letters -->
+            <input type="checkbox" id="upperCase" value="upperCase">
+            <label for="upperCase"> Uppercase Letters</label><br>
+            <!-- Numeric Characters -->
+            <input type="checkbox" id="numeric" value="numeric">
+            <label for="numeric"> Numeric Characters</label><br>
+            <!-- Special Characters -->
+            <input type="checkbox" id="special" value="special">
+            <label for="special"> Special Characters</label><br>
+            <!-- Password Length -->
+            <label for="length">Password Length:</label>
+            <input type="range" id="length" name="length" min="6" max="128" style="width:300px">
+            <span id="rangeDisplay"></span>
+          </form>
         </div>
       </div>
     </div>

@@ -1,6 +1,11 @@
 // Identify and name key elements
-const generateBtn = document.querySelector("#generate");
 const passwordText = document.querySelector("#password");
+const lowerCaseCheck = document.querySelector("#lowerCase");
+const upperCaseCheck = document.querySelector("#upperCase");
+const numericCheck = document.querySelector("#numeric");
+const specialCheck = document.querySelector("#special");
+const lengthRange = document.querySelector("#length");
+const rangeDisplay = document.querySelector("#rangeDisplay");
 
 // Create strings of character banks to draw from
 const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
@@ -8,42 +13,35 @@ const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const numericChars = "0123456789";
 const specialChars = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~\"\\";
 
-// Generate a password based on user prompts, ensure it meets criteria, then write it to the #password input
+// Preset the inputs on page load & generate first password
+lowerCaseCheck.checked = true;
+upperCaseCheck.checked = true;
+numericCheck.checked = true;
+specialCheck.checked = true;
+lengthRange.value = 10;
+
+showLength();
+writePassword();
+
+
+// Generate a password based on user inputs & write it to the #password div
 function writePassword() {
-  // Prompt the user for password length & ensure a valid length was entered
-  // (the userInput variable allows the user to click "cancel" and get out at this point)
-  let userInput = prompt("How many characters long should the password be?", "Enter a number between 8 and 128");
-  if (userInput == null) { return; }
-  let passwordLength = parseInt(userInput, 10);
-  
-  while (passwordLength < 8 || passwordLength > 128 || isNaN(passwordLength)) {
-    userInput = prompt("You must enter a length between 8 and 128 in number form.", "Enter a number between 8 and 128");
-    if (userInput == null) { return; }
-    passwordLength = parseInt(userInput, 10);
-  }
-  
-  // Prompt the user for password character criteria
-  let useLowerCase = confirm("Should the password include lowercase characters? \r\nClick 'OK' for yes, or 'Cancel' for no.");
-  let useUpperCase = confirm("Should the password include uppercase characters? \r\nClick 'OK' for yes, or 'Cancel' for no.");
-  let useNumeric = confirm("Should the password include numeric characters? \r\nClick 'OK' for yes, or 'Cancel' for no.");
-  let useSpecial = confirm("Should the password include special characters (not including spaces)? \r\nClick 'OK' for yes, or 'Cancel' for no.");
+  // Collect data drom user inputs
+  let passwordLength = lengthRange.value;
+  let useLowerCase = lowerCaseCheck.checked;
+  let useUpperCase = upperCaseCheck.checked;
+  let useNumeric = numericCheck.checked;
+  let useSpecial = specialCheck.checked;
 
-  // If at least one character type is selected, identify the problem for the user and re-prompt each criteria
-  while (useLowerCase === false && 
-         useUpperCase === false && 
-         useNumeric === false &&
-         useSpecial === false) {
-    alert("You must include at least one character type. \r\n \r\nLet's try this again");
-    useLowerCase = confirm("Should the password include lowercase characters? \r\nClick 'okay' for yes, or 'cancel' for no.");
-    useUpperCase = confirm("Should the password include uppercase characters? \r\nClick 'okay' for yes, or 'cancel' for no.");
-    useNumeric = confirm("Should the password include numeric characters? \r\nClick 'okay' for yes, or 'cancel' for no.");
-    useSpecial = confirm("Should the password include special characters? \r\nClick 'okay' for yes, or 'cancel' for no.");
+  // If no character types are selected, don't run generatPassword()
+  if (!useLowerCase && !useUpperCase  && !useNumeric  && !useSpecial) {
+    passwordText.value = "You must select at least one character type!"
+    return;
   }
 
-  // Create a variable ("isValid") to represent whether the generated password matches criteria
+  // Generate a new password with the prompted criteria. If the new value of password matches all the criteria, write it in the #password element. If it doesn't, keep generating new passowrds until one does.
   let isValid = false;
   while (!isValid) {
-    // Generate a new password with the prompted criteria. If the new value of password matches all the criteria, write it in the #password element. If it doesn't, keep generating new passowrds until one does.
     let password = generatePassword(passwordLength, useLowerCase, useUpperCase, useNumeric, useSpecial);
 
     if ((useLowerCase != commonChars(password, lowerCaseChars)) || 
@@ -59,21 +57,10 @@ function writePassword() {
       console.log("----")
     }
   }
-
+  
 }
 
-
-// Event listener for generate button
-generateBtn.addEventListener("click", writePassword);
-
-
 // Generate a random password from the given criteria.
-// Arguments:
-//  - 'length' is the password length - a number between 8 and 128
-//  - 'useLow' is a boolean telling us whether to include lower case letters
-//  - 'useUpp' is a boolean telling us whether to include upper case letters
-//  - 'useNum' is a boolean telling us whether to include numeric characters
-//  - 'useSpe' is a boolean telling us whether to include special characters letters
 function generatePassword(length, useLow, useUpp, useNum, useSpe) {
   // Create a string of all possible characters to choose from
   let possibleChars = "";
@@ -93,8 +80,12 @@ function generatePassword(length, useLow, useUpp, useNum, useSpe) {
   return newPassword;
 }
 
+// Displays the value next to the range, then calls writePassword
+function showLength() {
+  rangeDisplay.textContent = lengthRange.value;
+}
 
-// This function will return a boolean representing whether the two strings have any characters in common. It will be used to test whether the generated password (a) includes a character from each requested character type (b).
+// Checks whether two strings have any characters in common and returns a boolean
 function commonChars(a, b){
   if(a.length > b.length) {
     return commonChars(b, a)
@@ -107,3 +98,14 @@ function commonChars(a, b){
   }
   return false
 }
+
+
+// Event listeners for changes to inputs
+lowerCaseCheck.addEventListener("click", writePassword);
+upperCaseCheck.addEventListener("click", writePassword);
+numericCheck.addEventListener("click", writePassword);
+specialCheck.addEventListener("click", writePassword);
+lengthRange.addEventListener("change", writePassword);
+
+// Event listener to display range as the input is dragged
+lengthRange.addEventListener("input", showLength);
