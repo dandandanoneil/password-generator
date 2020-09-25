@@ -1,52 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Password Generator</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>Password Generator</h1>
-      </header>
-      <div class="card">
-        <div class="card-header">
-          <h2>Generate a Password</h2>
-        </div>
-        
-        <div class="card-body">
-          <textarea
-          readonly
-          id="password"
-          placeholder="Your Secure Password"
-          aria-label="Generated Password"
-          ></textarea>
 
-          <!-- Password Criteria Inputs -->
-          <form>
-            <!-- Lowercase Letters -->
-            <input type="checkbox" id="lowerCase" value="lowerCase">
-            <label for="lowerCase"> Lowercase Letters</label><br>
-            <!-- Uppercase Letters -->
-            <input type="checkbox" id="upperCase" value="upperCase">
-            <label for="upperCase"> Uppercase Letters</label><br>
-            <!-- Numeric Characters -->
-            <input type="checkbox" id="numeric" value="numeric">
-            <label for="numeric"> Numeric Characters</label><br>
-            <!-- Special Characters -->
-            <input type="checkbox" id="special" value="special">
-            <label for="special"> Special Characters</label><br>
-            <!-- Password Length -->
-            <label for="length">Password Length:</label>
-            <input type="range" id="length" name="length" min="6" max="128" style="width:200px">
-            <span id="rangeDisplay"></span>
-          </form>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Password Generator</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <!-- Bootswatch Theme (Solar) -->
+  <link rel="stylesheet" href="https://bootswatch.com/4/solar/bootstrap.min.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="card mt-5">
+      <div class="card-header bg-info text-white">
+        <h2 class="m-1">&#x1f510 Secure Password Generator</h2>
+      </div>
+
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-md-12">
+            <textarea readonly class="w-100" id="password"></textarea readonly>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Password Criteria Inputs -->
+            <div class="col-md-6">
+              <form class="form-group">
+                <!-- Password Length Range Input -->
+                <label for="length">Password Length:</label>
+                <span id="rangeDisplay"></span>
+                <input type="range" id="length" class="form-control-range" name="length" min="6" max="128" style="width:100%">
+  
+                <!-- Lowercase Letters Toggle Switch -->
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="lowerCase" value="lowerCase">
+                  <label for="lowerCase" class="custom-control-label"> Lowercase Letters</label>
+                </div>
+  
+                <!-- Uppercase Letters Toggle Switch -->
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="upperCase" value="upperCase">
+                  <label for="upperCase" class="custom-control-label"> Uppercase Letters</label><br>
+                </div>
+  
+                <!-- Numeric Characters Toggle Switch -->
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="numeric" value="numeric">
+                  <label for="numeric" class="custom-control-label"> Numeric Characters</label><br>
+                </div>
+  
+                <!-- Special Characters Toggle Switch -->
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="special" value="special">
+                  <label for="special" class="custom-control-label"> Special Characters</label><br>
+                </div>
+              </form>
+            </div>
+
+            <!-- Other Features -->
+            <div class="col-md-6">
+              <!-- Copy to Clipboard Button -->
+              <button type="button" id="copy" class="btn btn-success btn-block mb-2">Copy to Clipboard</button>
+
+              <!-- Generate a New Password Button -->
+              <button type="button" id="generate" class="btn btn-primary btn-block mb-2">Generate New Password</button>
+
+              <!-- Eliminate Confusing Characters -->
+              <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input"id="confusing" value="confusing">
+                <label for="confusing" class="custom-control-label"> Eliminate Confusing Characters</label>
+                <p><small>Your password won't include O, 0, I, 1, or l.</small></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <script src="script.js"></script>
-  </body>
+
+  <script src="script.js"></script>
+  <!-- Bootstrap JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
 </html>
