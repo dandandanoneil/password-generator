@@ -13,4 +13,7 @@ I'm interested in developing this web application further in the following ways:
  - Adding a dropdown list that retrieves recently geenrated passwords
  - Updating or replacing the CSS to make the design/layout more my own
 
+## License
+[MIT License](http://opensource.org/licenses/mit-license.php)
+
 > Written with [StackEdit](https://stackedit.io/).
